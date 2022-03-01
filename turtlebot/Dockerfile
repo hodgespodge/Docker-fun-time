@@ -30,6 +30,10 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\
     colcon build --symlink-install
 
 ENV TURTLEBOT3_MODEL=burger
+ENV MAP_PATH=/root/turtlebot3_ws/src/turtlebot3/turtlebot3_navigation2/map/turtlebot3_world.yaml
+
+RUN apt-get update &&\
+    apt-get install tree
 
 # Add source turtlebot3_ws to .bashrc
 RUN echo 'source ~/turtlebot3_ws/install/setup.bash' >> ~/.bashrc

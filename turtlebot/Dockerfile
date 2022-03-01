@@ -18,15 +18,24 @@ RUN apt-get update &&\
     apt-get install -y ros-$ROS_DISTRO-navigation2 \
     ros-$ROS_DISTRO-nav2-bringup  
 
+# Install Groot dependencies
+RUN apt-get update &&\
+    apt-get install -y qtbase5-dev \
+    libqt5svg5-dev \
+    libzmq3-dev \
+    libdw-dev
+
 # Install Turtlebot3 from source
 WORKDIR /root/turtlebot3_ws/src
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/DynamixelSDK.git
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+RUN git clone https://github.com/BehaviorTree/Groot.git
 WORKDIR /root/turtlebot3_ws
 
 RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\
+    rosdep install --from-paths src --ignore-src &&\
     colcon build --symlink-install
 
 ENV TURTLEBOT3_MODEL=burger
@@ -42,6 +51,9 @@ RUN echo 'echo "ran source ~/turtlebot3_ws/install/setup.bash"' >> ~/.bashrc
 # Add ros source command to bashrc
 RUN echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> ~/.bashrc
 RUN echo 'echo "ran source /opt/ros/$ROS_DISTRO/setup.bash"' >> ~/.bashrc
+
+# Add symbolic link for running groot to path
+RUN ln -s /root/turtlebot3_ws/build/groot/Groot /usr/local/bin/groot
 
 # to simulate
 # https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/

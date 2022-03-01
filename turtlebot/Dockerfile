@@ -10,23 +10,21 @@ RUN apt-get update &&\
 
 # Install ros2 Cartographer
 RUN apt-get update &&\
-    apt-get install -y ros-$ROS_DISTRO-cartographer-ros \
-    ros-$ROS_DISTRO-cartographer-ros-msgs \
-    ros-$ROS_DISTRO-cartographer-ros-mapping \ 
-    ros-$ROS_DISTRO-cartographer-ros-occupancy-grid-map-server
+    apt-get install -y ros-$ROS_DISTRO-cartographer \
+    ros-$ROS_DISTRO-cartographer-ros
 
 # Install Navigation2
 RUN apt-get update &&\
     apt-get install -y ros-$ROS_DISTRO-navigation2 \
-    ros-$ROS_DISTRO-nav2-* 
+    ros-$ROS_DISTRO-nav2-bringup  
 
 # Install Turtlebot3 from source
-WORKDIR /~/turtlebot3_ws/src
+WORKDIR /root/turtlebot3_ws/src
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/DynamixelSDK.git
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/turtlebot3.git
 RUN git clone -b $ROS_DISTRO-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
-WORKDIR /~/turtlebot3_ws
+WORKDIR /root/turtlebot3_ws
 
 RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\
     colcon build --symlink-install
@@ -34,7 +32,12 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\
 ENV TURTLEBOT3_MODEL=burger
 
 # Add source turtlebot3_ws to .bashrc
-RUN echo 'source /~/turtlebot3_ws/install/setup.bash' >> ~/.bashrc
+RUN echo 'source ~/turtlebot3_ws/install/setup.bash' >> ~/.bashrc
+RUN echo 'echo "ran source ~/turtlebot3_ws/install/setup.bash"' >> ~/.bashrc
 
 # Add ros source command to bashrc
 RUN echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> ~/.bashrc
+RUN echo 'echo "ran source /opt/ros/$ROS_DISTRO/setup.bash"' >> ~/.bashrc
+
+# to simulate
+# https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/

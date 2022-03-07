@@ -53,6 +53,11 @@ RUN echo 'echo "ran source ~/turtlebot3_ws/install/setup.bash"' >> ~/.bashrc
 RUN echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> ~/.bashrc
 RUN echo 'echo "ran source /opt/ros/$ROS_DISTRO/setup.bash"' >> ~/.bashrc
 
+# Add gazebo source command to bashrc
+# Note: gazebo fails to spawn turtlebot the first time if this is not added
+RUN echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc
+RUN echo 'echo "ran source /usr/share/gazebo/setup.sh"' >> ~/.bashrc
+
 # Add symbolic link for running groot to path
 RUN ln -s /root/turtlebot3_ws/build/groot/Groot /usr/local/bin/groot
 

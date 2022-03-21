@@ -42,6 +42,8 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\
 ENV TURTLEBOT3_MODEL=burger
 ENV MAP_PATH=/root/turtlebot3_ws/src/turtlebot3/turtlebot3_navigation2/map/turtlebot3_world.yaml
 
+COPY README.md /root/turtlebot3_ws
+
 RUN apt-get update &&\
     apt-get install tree
 

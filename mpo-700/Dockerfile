@@ -54,6 +54,10 @@ RUN apt-get update &&\
 RUN apt-get update &&\
     sudo apt-get install ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-gazebo-plugins ros-$ROS_DISTRO-gazebo-ros-pkgs
 
+# Add gazebo source command to bashrc
+RUN echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc
+RUN echo 'echo "ran source /usr/share/gazebo/setup.sh"' >> ~/.bashrc
+
 RUN apt-get update &&\
     apt-get install tree
 

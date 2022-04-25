@@ -23,8 +23,9 @@ RUN cd ~/catkin_ws/src &&\
     git clone https://github.com/ros/geometry2 --branch 0.6.5
 
 RUN cd ~/catkin_ws/ &&\
+    apt-get update &&\
     . /opt/ros/melodic/setup.sh &&\
-    rosdep install --from-paths src --ignore-src -y
+    rosdep install -y --from-paths src --ignore-src -y
 
 RUN cd ~/catkin_ws/ &&\
     . /opt/ros/melodic/setup.sh &&\

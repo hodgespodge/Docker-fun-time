@@ -2,23 +2,10 @@ FROM osrf/ros:galactic-desktop
 
 ENV ROS_DISTRO=galactic
 
-# Install ros2 gazebo packages
-RUN apt-get update &&\
-    sudo apt-get install -y ros-$ROS_DISTRO-gazebo-ros \
-    ros-$ROS_DISTRO-gazebo-plugins \
-    ros-$ROS_DISTRO-gazebo-ros-pkgs
-
 # # Install Navigation2
 # RUN apt-get update &&\
 #     apt-get install -y ros-$ROS_DISTRO-navigation2 \
 #     ros-$ROS_DISTRO-nav2-bringup  
-
-# # Install Groot dependencies
-# RUN apt-get update &&\
-#     apt-get install -y qtbase5-dev \
-#     libqt5svg5-dev \
-#     libzmq3-dev \
-#     libdw-dev
 
 # Install husky from source
 WORKDIR /root/husky_ws/src
@@ -27,9 +14,13 @@ RUN git clone -b $ROS_DISTRO-devel https://github.com/husky/husky.git
 WORKDIR /root/husky_ws
 
 RUN apt-get update &&\
-    # This seems to be required for gazebo to work (not included in the repo)
-    apt-get install -y ros-$ROS_DISTRO-gazebo-ros2-control &&\
     apt-get install -y ros-galactic-teleop-twist-keyboard
+
+# Install ros2 gazebo packages
+RUN apt-get update &&\
+    sudo apt-get install -y ros-$ROS_DISTRO-gazebo-ros \
+    ros-$ROS_DISTRO-gazebo-plugins \
+    ros-$ROS_DISTRO-gazebo-ros-pkgs
 
 # Build
 RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\

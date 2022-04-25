@@ -39,7 +39,8 @@ RUN git clone https://github.com/BehaviorTree/Groot.git
 # RUN rosdep update
 WORKDIR /mpo_700_workspace
 RUN . /opt/ros/$ROS_DISTRO/setup.sh &&\
-    rosdep install --from-paths src/Groot --ignore-src &&\
+    apt-get update &&\
+    rosdep install -y --from-paths src/Groot --ignore-src &&\
     colcon build --symlink-install
 
 RUN echo 'export LC_NUMERIC="en_US.UTF-8"' >> ~/.bashrc

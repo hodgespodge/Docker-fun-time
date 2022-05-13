@@ -59,8 +59,14 @@ RUN apt-get update &&\
 RUN echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc
 RUN echo 'echo "ran source /usr/share/gazebo/setup.sh"' >> ~/.bashrc
 
+# Install developer tools
 RUN apt-get update &&\
     apt-get install tree
+
+# Dist-upgrade is recommended for ROS dockers. See https://github.com/ros2/rosidl/issues/680
+RUN apt-get update &&\
+    apt-get dist-upgrade -y 
+
 
 RUN ln -s /mpo_700_workspace/build/groot/Groot /usr/local/bin/groot
 

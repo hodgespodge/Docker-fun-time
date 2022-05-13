@@ -25,8 +25,13 @@ RUN apt-get update &&\
     ros-$ROS_DISTRO-gazebo-plugins \
     ros-$ROS_DISTRO-gazebo-ros-pkgs
 
+# Install developer tools
 RUN apt-get update &&\
     apt-get install tree
+
+# Dist-upgrade is recommended for ROS dockers. See https://github.com/ros2/rosidl/issues/680
+RUN apt-get update &&\
+    apt-get dist-upgrade -y 
 
 COPY README.md /root/turtlebot3_ws
 
